@@ -1,0 +1,45 @@
+{
+    "name": "phredeye/reflex",
+    "description": "Build Laravel controllers with reflection on models",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fred Isaacs",
+            "email": "fred.isaacs@gmail.com",
+            "homepage": "https://fredisaacs.com"
+        }
+    ],
+    "homepage": "https://github.com/phredeye/reflex",
+    "keywords": ["Laravel", "Reflex"],
+    "require": {
+        "illuminate/support": "~5|~6|~7",
+        "illuminate/database": "~5|~6|~7",
+        "spatie/laravel-query-builder": "^2.8"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.0",
+        "mockery/mockery": "^1.1",
+        "orchestra/testbench": "~3|~4",
+        "sempro/phpunit-pretty-print": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Phredeye\\Reflex\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Phredeye\\Reflex\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Phredeye\\Reflex\\ReflexServiceProvider"
+            ],
+            "aliases": {
+                "Reflex": "Phredeye\\Reflex\\Facades\\Reflex"
+            }
+        }
+    }
+}

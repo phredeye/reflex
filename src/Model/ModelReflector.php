@@ -1,14 +1,13 @@
 <?php
 
 
-namespace Phredeye\Reflex;
+namespace Phredeye\Reflex\Model;
 
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use ReflectionClass;
-use ReflectionMethod;
-use function get_class;
+use function class_basename;
+use function class_exists;
 
 /**
  * Class ModelReflector
@@ -70,15 +69,29 @@ class ModelReflector
 
     /**
      * @param array $args
-     * @return Model
+     * @return ReflexModelInterface|Model
      */
-    public function newModelInstance(array $args = []): Model
+    public function newModelInstance(array $args = []): ReflexModelInterface
     {
         /** @var Model $model */
         $model = $this->reflectionClass->newInstance($args);
         return $model;
     }
 
+    public function getModelBaseName() : string {
+        return class_basename($this->modelClassName);
+    }
 
+    /**
+     * @return string
+     */
+    public function guessPolicyClassName(): string
+    {
+        return app_path(sprintf("Policies/%sPolicy", $this->getModelBaseName()));
+    }
+
+    public function hasGuessablePolicy() : bool {
+        return (class_exists($this->guessPolicyClassName()));
+    }
 
 }

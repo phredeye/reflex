@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Phredeye\Reflex;;
+namespace Phredeye\Reflex\Model;
 
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

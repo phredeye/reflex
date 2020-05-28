@@ -1,19 +1,27 @@
 <?php
 
-namespace Phredeye\Reflex;;
+namespace Phredeye\Reflex;
+;
 
-use App\Http\Controllers\Controller;
+
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Controller;
 use ReflectionException;
+use function request;
 
 /**
- * Class ResourceController
- * @package App\ReflexAPI
+ * Class ReflexResourceController
+ * @package Phredeye\Reflex
  */
-abstract class ResourceController extends Controller
+abstract class ReflexResourceController extends Controller
 {
+    use ValidatesRequests;
+    use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      * @throws ReflectionException
@@ -41,31 +49,16 @@ abstract class ResourceController extends Controller
      */
     abstract protected function getModelReflector(): ModelReflector;
 
-    /**
-     * @return array
-     */
-    protected function getStoreRules() : array {
-        return [];
-    }
 
     /**
-     * @return array
-     */
-    protected function getUpdateRules(): array {
-        return [];
-    }
-
-
-    /**
+     * @param ReflexFormRequest $request
      * @return JsonResponse
-     * @throws ReflectionException
      */
-    public function store(): JsonResponse
+    public function store(ReflexFormRequest  $request): JsonResponse
     {
         $model = $this->getModelReflector()
-            ->newModelInstance()
-            ->newModelQuery()
-            ->create(request()->all());
+            ->newModelInstance(request()->all())
+            ->save();
 
         return new JsonResponse($model);
     }
@@ -76,8 +69,13 @@ abstract class ResourceController extends Controller
      */
     public function show($id)
     {
-        $with = request()->query('include', []);
-        $model = $this->getModelReflector()->find($id, $with);
+        $model = $this->getModelReflector()
+            ->newModelInstance()
+            ->newModelQuery()
+            ->findOrFail($id);
+
+        $model->load($this->getModelReflector()->relations());
+
         return response()->json($model);
     }
 
@@ -89,27 +87,30 @@ abstract class ResourceController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(ReflexFormRequest $request, $id)
     {
-        $model = $this->getModelReflector()->find($id);
-        $fillable = $this->getModelReflector()->getFillableFields();
+        $reflexModel = $this->getModelReflector()->newModelInstance();
+
+        $model = $reflexModel->newModelQuery()->findOrFail($id);
+        $fillable = $reflexModel->fillable();
         $model->fill($request->only($fillable));
         $model->save();
         return new JsonResponse($model);
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
+     * @param $id
      * @return Response
+     * @throws \Exception
      */
-
     public function destroy($id)
     {
-        $this->getModelReflector()
-            ->find($id)
-            ->delete();
+        $model = $this->getModelReflector()
+            ->newModelInstance()
+            ->newModelQuery()
+            ->findOrFail($id);
+
+        $model->delete();
 
         return response()->noContent();
     }

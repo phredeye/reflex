@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Phredeye\Reflex;;
+namespace Phredeye\Reflex\Model;
 
 
 interface ReflexModelInterface
@@ -17,4 +17,5 @@ interface ReflexModelInterface
      * @return array
      */
     public function updateRules() : array;
+
 }

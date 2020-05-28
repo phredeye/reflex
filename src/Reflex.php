@@ -4,5 +4,7 @@ namespace Phredeye\Reflex;
 
 class Reflex
 {
-    // Build wonderful things
+    public function registerStoreRequest(string $modelClassName) : self {
+
+    }
 }

@@ -17,12 +17,12 @@ class ModelReflector
     /**
      * @var string Fully qualified class name
      */
-    protected $modelClassName;
+    protected string $modelClassName;
 
     /**
      * @var ReflectionClass
      */
-    protected $reflectionClass;
+    protected ReflectionClass $reflectionClass;
 
     /**
      * ModelReflector constructor.

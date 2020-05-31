@@ -1,37 +1,34 @@
 <?php
 
 
-namespace Phredeye\Reflex;;
+namespace Phredeye\Reflex;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Phredeye\Reflex\Model\ModelReflector;
+use ReflectionException;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class ReflexQueryBuilder
+class ReflexQueryBuilderFactory
 {
     /**
      * @var ModelReflector
      */
-    protected $modelReflector;
+    protected ModelReflector $modelReflector;
 
     /**
-     * @param ModelReflector|null $modelReflector
+     * @param ModelReflector $modelReflector
      */
-    public function __construct(ModelReflector $modelReflector = null)
+    public function __construct(ModelReflector $modelReflector)
     {
         $this->modelReflector = $modelReflector;
     }
 
     /**
      * @return QueryBuilder
-     * @throws \ReflectionException
      */
-    public function createQueryBuilder(): QueryBuilder
+    public function create(): QueryBuilder
     {
         $reflector = $this->getModelReflector();
-
         $class = $reflector->getModelClassName();
         $fields = $reflector->newModelInstance()->getFillable();
         $includes = $reflector->relations();
@@ -44,20 +41,6 @@ class ReflexQueryBuilder
     }
 
     /**
-     * @param $id
-     * @param array $relations
-     * @return Model
-     * @throws \ReflectionException
-     */
-    public function findWithRelations($id, array $relations = [])  : Model {
-        return $this->getModelReflector()
-            ->newModelInstance()
-            ->newModelQuery()
-            ->with($relations)
-            ->findOrFail($id);
-    }
-
-    /**
      * @return ModelReflector
      */
     public function getModelReflector(): ModelReflector
@@ -67,13 +50,14 @@ class ReflexQueryBuilder
 
     /**
      * @param ModelReflector $modelReflector
-     * @return ReflexQueryBuilder
+     * @return ReflexQueryBuilderFactory
      */
-    public function setModelReflector(ModelReflector $modelReflector): ReflexQueryBuilder
+    public function setModelReflector(ModelReflector $modelReflector): ReflexQueryBuilderFactory
     {
         $this->modelReflector = $modelReflector;
         return $this;
     }
+
 
 }
 

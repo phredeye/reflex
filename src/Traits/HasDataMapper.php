@@ -4,25 +4,25 @@
 namespace Phredeye\Reflex\Traits;
 
 
-use Phredeye\Reflex\Model\ReflexDataMapper;
+use Phredeye\Reflex\Model\ReflexRepository;
 
 trait HasDataMapper
 {
-    protected ReflexDataMapper $dataMapper;
+    protected ReflexRepository $dataMapper;
 
     /**
-     * @return ReflexDataMapper
+     * @return ReflexRepository
      */
-    public function getDataMapper(): ReflexDataMapper
+    public function getDataMapper(): ReflexRepository
     {
         return $this->dataMapper;
     }
 
     /**
-     * @param ReflexDataMapper $dataMapper
+     * @param ReflexRepository $dataMapper
      * @return self
      */
-    public function setDataMapper(ReflexDataMapper $dataMapper): self
+    public function setDataMapper(ReflexRepository $dataMapper): self
     {
         $this->dataMapper = $dataMapper;
         return $this;

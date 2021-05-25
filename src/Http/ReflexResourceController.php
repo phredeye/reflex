@@ -10,7 +10,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Phredeye\Reflex\Http\ReflexFormRequest;
 use Phredeye\Reflex\Model\ModelReflector;
-use Phredeye\Reflex\Model\ReflexDataMapper;
+use Phredeye\Reflex\Model\ReflexRepository;
 use Phredeye\Reflex\Traits\HasDataMapper;
 use Phredeye\Reflex\Traits\HasModelReflector;
 use Phredeye\Reflex\Traits\HasQueryBuilderFactory;
@@ -56,7 +56,7 @@ class ReflexResourceController extends Controller
     {
         try {
             $this->setModelReflector(new ModelReflector($this->modelClassName));
-            $this->setDataMapper(new ReflexDataMapper($this->getModelReflector()));
+            $this->setDataMapper(new ReflexRepository($this->getModelReflector()));
             $this->bootQueryBuilderFactory($this->getModelReflector());
         } catch (ReflectionException $e) {
             abort(500, "Server Error while trying to introspect reflex model: " . $this->modelClassName);

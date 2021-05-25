@@ -14,14 +14,5 @@ class Reflex
 
         return $this;
     }
-
-    /**
-     * @param $modelClassName
-     * @return ModelReflector
-     * @throws \ReflectionException
-     */
-    public function createModelReflector($modelClassName): ModelReflector
-    {
-        return new ModelReflector($modelClassName);
-    }
 }
+

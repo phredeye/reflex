@@ -17,10 +17,10 @@ use function in_array;
 use function is_null;
 
 /**
- * Class ModelRelationMapper
+ * Class ModelRelationReflector
  * @package App\ReflexAPI
  */
-class ModelRelationMapper
+class ModelRelationReflector
 {
     protected static array $relationTypes = [
         HasOne::class,
@@ -36,7 +36,7 @@ class ModelRelationMapper
     protected string $modelClassFQN;
 
     /**
-     * ModelRelationMapper constructor.
+     * ModelRelationReflector constructor.
      * @param string $modelClassFQN
      */
     public function __construct(string $modelClassFQN)

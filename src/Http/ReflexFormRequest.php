@@ -13,29 +13,16 @@ abstract class ReflexFormRequest extends FormRequest
 {
     protected ModelReflector $modelReflector;
 
-    public function __construct(array $query = [], array $request = [], array $attributes = [], array $cookies = [], array $files = [], array $server = [], $content = null)
-    {
-        parent::__construct($query, $request, $attributes, $cookies, $files, $server, $content);
-        $reflector = app()->get('request.model.reflector');
-        $this->setModelReflector($reflector);
-    }
 
     /**
      * @return ModelReflector
      */
-    public function getModelReflector(): ModelReflector
-    {
-        return $this->modelReflector;
-    }
+    abstract public function getModelReflector(): ModelReflector;
 
     /**
      * @param ModelReflector $modelReflector
      */
-    public function setModelReflector(ModelReflector $modelReflector): self
-    {
-        $this->modelReflector = $modelReflector;
-        return $this;
-    }
+    abstract public function setModelReflector(ModelReflector $modelReflector): self;
 
 
 

@@ -37,6 +37,8 @@ class ReflexServiceProvider extends ServiceProvider
         $this->app->singleton('reflex', function ($app) {
             return new Reflex;
         });
+
+
     }
 
     /**
@@ -48,7 +50,7 @@ class ReflexServiceProvider extends ServiceProvider
     {
         return ['reflex'];
     }
-    
+
     /**
      * Console-specific booting.
      *

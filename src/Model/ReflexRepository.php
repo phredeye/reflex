@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Phredeye\Reflex\Traits\HasModelReflector;
 
 
-class ReflexDataMapper
+class ReflexRepository
 {
     use HasModelReflector;
 
